@@ -90,12 +90,11 @@ def serial_reader(com, killswitch):
         if killswitch.is_set():
             break
 
-
 def cmd_send(com,pkt):
     print ("TX:", pkt, "[", binascii.hexlify(pkt.serialize()), "]")
     com.write(pkt.serialize())
 
-def main(command):
+def CONTROL(command):
     dev_addr = 0x100
     dev_bus = 0
 
@@ -103,9 +102,9 @@ def main(command):
 #    parser.add_argument('-c','--com',type=str,required=True,help="COM port")
 #    args = parser.parse_args()
 
-    com_name = 'COM1'
-    com = serial.Serial(com_name,baudrate=9600,timeout=0.3)
-
+    com_name = None
+    #com = serial.Serial(com_name,baudrate=9600,timeout=0.3)
+    com=None
 # serial port reader thred
     serial_reader_killswitch = threading.Event()
     serial_reader_th = threading.Thread( target=serial_reader, args=(com, serial_reader_killswitch) )
@@ -160,14 +159,11 @@ def main(command):
                 except:
                     print ("Local error executing command")
 
-    print ("Unknown command!")
+    # else:
+    #     print ("Unknown command!")
 
 # cleanup
     serial_reader_killswitch.set()
     serial_reader_th.join()
     com.close()
 
-
-
-#if __name__ == '__main__':
-#    main(command)
