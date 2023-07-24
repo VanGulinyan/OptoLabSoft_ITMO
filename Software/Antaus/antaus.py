@@ -2,7 +2,7 @@
 import argparse
 import serial
 import threading
-from packet import *
+from package import *
 
 antaus_errors = {
 1: "NOT_AVAILABLE",
